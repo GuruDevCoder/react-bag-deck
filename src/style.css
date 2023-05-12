@@ -1,0 +1,122 @@
+h1 {
+  font-size: 6rem;
+}
+
+h1,
+h2 {
+  color: white;
+}
+
+li.left {
+  text-align: left;
+}
+
+.initial {
+  color: rgb(228, 179, 20);
+}
+
+.titleContainer {
+  font-size: 8rem;
+}
+
+.turn {
+  display: inline-block;
+  animation: spinIt 16s infinite;
+}
+.turn2 {
+  display: inline-block;
+  animation: spinIt2 16s infinite;
+}
+
+.flexContainer {
+  display: flex;
+  width: 100vw;
+  height: 80vh;
+}
+
+.flexContainer > * {
+  flex: 0 0 40%;
+}
+
+.appearItem {
+  height: 80vh;
+}
+.appearItem img {
+  max-width: 40vw;
+  animation: fadein 0.4s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes spinIt {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  3% {
+    transform: rotateY(180deg);
+  }
+
+  57% {
+    transform: rotateY(180deg);
+  }
+
+  60% {
+    transform: rotateY(360deg);
+  }
+
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+@keyframes spinIt2 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  2% {
+    transform: rotate(180deg);
+  }
+
+  57% {
+    transform: rotate(180deg);
+  }
+
+  60% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.button{
+cursor: pointer;
+}
+
+.block {
+  display: block;
+  margin: 0 auto 5em;
+}
+
+.no-select {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -moz-user-drag: none;
+  -khtml-user-drag: none;
+  -webkit-user-drag: none;
+  -ms-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}

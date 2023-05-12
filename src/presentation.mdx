@@ -1,0 +1,583 @@
+export theme from "theme";
+import { Appear, Head, Notes, Image, Code } from "mdx-deck";
+import Button from 'button'
+import {
+  AbsoluteDiv,
+  RelativeDiv,
+  Title2Left,
+  FlexItem,
+  FlexContainer,
+  Scroller,
+  ReactVersion
+} from "./components";
+import "style.css";
+
+<Head>
+  <title>Future React</title>
+</Head>
+
+
+<Button />
+
+---
+
+# Future React
+
+### Improving Experience
+
+---
+
+<Title2Left>User Experience</Title2Left>
+
+- React.lazy
+- Suspense
+- Concurrent Mode
+
+<Notes />
+
+---
+
+<Title2Left>Developer Experience</Title2Left>
+
+- Context API
+- Strict Mode
+- Profiler
+- Hooks
+
+---
+
+<ReactVersion>react@16.3</ReactVersion>
+
+# Context API
+
+### A way to pass data through the component tree
+
+---
+
+<Appear alt showFirst>
+  <div>
+    <h2>
+      Context is designed to share data that can be considered{" "}
+      <span style={{ color: "yellow" }}>global</span> for a tree of React
+      components.
+    </h2>
+    Eg user data, theme, or preferred language.
+  </div>
+  <div>
+    <h2>
+      Context is primarily used when some data needs to be accessible by{" "}
+      <span style={{ color: "yellow" }}>many</span> components at different
+      nesting levels.
+    </h2>
+  </div>
+
+</Appear>
+
+---
+
+<Appear alt showFirst>
+  <div>
+    <h2>Create a Context</h2>
+    <Code className="language-javascript">
+      const MyContext = React.createContext(defaultValue);
+    </Code>
+  </div>
+  <div>
+    <h2>Use a Provider Component to propagate Context</h2>
+    <Code className="language-jsx">
+      {`<MyContext.Provider value={/* some value */}>`}
+    </Code>
+  </div>
+  <div>
+    <h2>Consume Context (render-props)</h2>
+    <Code className="language-jsx">
+      {`<MyContext.Consumer>
+  {value => /* render something based on the context value */}
+</MyContext.Consumer>`}
+    </Code>
+  </div>
+</Appear>
+
+---
+
+<Appear showFirst>
+  <div>
+    <h2>Apply it sparingly</h2>
+    <h3>It makes component reuse more difficult.</h3>
+    <div>
+      If you only want to avoid passing some props through many levels,{" "}
+      <span style={{ color: "yellow" }}>component composition</span> is often a
+      simpler solution than context.
+    </div>
+  </div>
+</Appear>
+
+---
+
+<ReactVersion>react@16.3</ReactVersion>
+
+# React Strict Mode
+
+### Prepare your code for Concurrent Rendering
+
+---
+
+```jsx
+import React from "react";
+
+function ExampleApplication() {
+  return (
+    <div>
+      <Header />
+      <React.StrictMode>
+        <div>
+          <ComponentOne />
+          <ComponentTwo />
+        </div>
+      </React.StrictMode>
+      <Footer />
+    </div>
+  );
+}
+```
+
+---
+
+## It helps with:
+
+<ul>
+  <Appear>
+    <li>
+      <h3>Identifying components with unsafe lifecycles</h3>
+    </li>
+    <li>
+      <h3>Warning about legacy string ref API usage</h3>
+    </li>
+    <li>
+      <h3>Warning about deprecated findDOMNode usage</h3>
+    </li>
+    <li>
+      <h3>Detecting unexpected side effects</h3>
+    </li>
+    <li>
+      <h3>Detecting legacy context API</h3>
+    </li>
+  </Appear>
+</ul>
+
+---
+
+<ReactVersion>react@16.5</ReactVersion>
+
+# New Scheduler
+
+### Priority queue scheduling system for React
+
+---
+
+<Appear alt showFirst>
+  <h2>Still experimental.</h2>
+  <h2>An important part of the React Fiber rewrite.</h2>
+  <h2>
+    It gives React the ability to schedule updates at different priorities.
+  </h2>
+
+<div>
+  <img style={{ width: "160px" }} src="images/flux.png" />
+  <h2>
+    This is as essential as the Flux Capacitor in a DeLorean, it makes time travel possible.
+  </h2>
+</div>
+  <h2>React team is working with Chrome team to standardize scheduling.</h2>
+<h2>More on this later.</h2>
+
+</Appear>
+
+---
+
+<ReactVersion>react@16.5</ReactVersion>
+
+# Profiler
+
+### A browser devtool for profiling duration of React component commit to the DOM.
+
+<Notes>
+  
+You can still see the wall time (elapsed real time) but it’s more about duration spent on a component.
+
+You can still profile using browser’s built-in profiler but with React’s Time Slicing and Error Boundaries, it’s hard to stitch together the time React spent on a “component”.
+
+The profiler aims to provide an easier view on component’s commit time.
+
+Basing the profiler on “commit” helps you focus on performance of React components you created, not that of React core or the browser.
+
+</Notes>
+
+---
+
+<Image size="50%" src="images/profiler.png" />
+
+---
+
+<ReactVersion>react@16.6</ReactVersion>
+
+# React.lazy() with Suspense
+
+## render a dynamic import as a regular component.
+
+---
+
+<Appear alt showFirst>
+  <div>
+    <h2>Before</h2>
+    <Code className="language-jsx">{`import OtherComponent from './OtherComponent';}
+    
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  );
+}`}</Code>
+  </div>
+  <div>
+    <h2>After</h2>
+    <Code className="language-jsx">{`const OtherComponent = React.lazy(() => import('./OtherComponent'));
+  
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  );
+}`}</Code>
+
+  </div>
+
+<div>
+  <h2>With Suspense</h2>
+  <Code className="language-jsx">{`const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+function MyComponent() {
+    return (
+      <div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <section>
+            <OtherComponent />
+            <AnotherComponent />
+          </section>
+        </Suspense>
+      </div>
+    );
+}`}</Code>
+</div>
+
+</Appear>
+
+---
+
+<blockquote className="twitter-tweet" data-lang="en-gb">
+  <p lang="en" dir="ltr">
+    Suspense is a fundamentally new capability that lets you render a component
+    tree “in background” while components are fetching data, and display them
+    only after the whole tree is ready. For slow connections, it gives you full
+    control over where and when to show a placeholder.
+  </p>
+  &mdash; Dan Abramov (@dan_abramov){" "}
+</blockquote>
+
+---
+
+<ReactVersion>react@next</ReactVersion>
+
+# Hooks
+
+### Extract non-render logic into smaller chunks and share them across function components.
+
+---
+
+```jsx
+import { useState } from "react";
+
+function Example() {
+  // Declare a new state variable, which we'll call "count"
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+```
+
+---
+
+### Hooks let you always use functions instead of having to constantly switch between functions, classes, higher-order components and render props.
+
+---
+
+### Since Hooks are regular JavaScript functions, you can combine built-in Hooks provided by React into your own “custom Hooks”
+
+```jsx
+function MyResponsiveComponent() {
+  const width = useWindowWidth(); // Our custom Hook
+  return <p>Window width is {width}</p>;
+}
+```
+
+---
+
+```jsx
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
+
+  return width;
+}
+```
+
+---
+
+### Using hooks results in a simpler API & smaller/readable code base.
+
+<video width="35%" height="50%" controls>
+  <source src="images/hooks.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+---
+
+<FlexContainer>
+  <FlexItem>
+    <Title2Left>Basic Hooks</Title2Left>
+<ul>
+  <li className="left">useState</li>
+  <li className="left">useEffect</li>
+  <li className="left">useContext</li>
+</ul>
+  </FlexItem>
+
+  <FlexItem>
+  <Title2Left>Additional Hooks</Title2Left>
+
+<ul>
+<li className="left">useReducer</li>
+<li className="left">useCallback</li>
+<li className="left">useMemo</li>
+<li className="left">useRef</li>
+<li className="left">useImperativeMethods</li>
+<li className="left">useLayoutEffect</li>
+  </ul>
+  </FlexItem>
+
+  </FlexContainer>
+
+---
+
+<ReactVersion>react@16.x Q2-2019</ReactVersion>
+
+# Concurrent Mode
+
+### Smooth, high-performance UX.
+
+---
+
+<Appear alt showFirst>
+  <Image size="50%" src="images/scheduler_2.jpg" />
+  <Image size="50%" src="images/scheduler_1.jpg" />
+</Appear>
+---
+
+<Appear alt showFirst>
+  <h2>
+    This is known as <span style={{ color: "yellow" }}>Time Slicing</span>.
+  </h2>
+  <div>
+    <blockquote
+      className="twitter-tweet"
+      data-conversation="none"
+      data-lang="en-gb"
+    >
+      <p lang="en" dir="ltr">
+        Time slicing lets you render and update large React component trees
+        without blocking the user interactions. It is a perceived performance
+        optimization that becomes more relevant as your app adds features and
+        its UI becomes more ambitious.
+      </p>
+      &mdash; Dan Abramov (@dan_abramov)
+    </blockquote>
+  </div>
+</Appear>
+
+---
+
+## Concurrent mode is testable
+
+### You will be able to test it just like synchronous code
+
+---
+
+<ReactVersion>react@16.x mid-2019</ReactVersion>
+
+# Suspense for data-fetching
+
+### Treat Asynchronous data as if it was synchronous/local data
+
+---
+
+<Scroller>
+  <Code className="language-jsx">
+    {`
+    class Item extends React.Component {
+ 
+      constructor() {
+        super()
+        this.state = {data: null}
+      }
+ 
+      componentDidMount() {
+        this.getLatestData(this.props.id)
+      }
+ 
+      componentDidUpdate(prevProps) {
+        if(prevProps.id !== this.props.id) {
+          this.getLatestData(this.props.id)
+        }
+      }
+ 
+      async getLatestData(id) {
+        const review = await fetchAPI(
+          \`reviews/\${id}\`,
+        )
+        this.setState({data: review})
+      }
+ 
+      render() {
+        const data = this.state.data
+        if (data === null) {
+          return <Spinner />
+        }
+        return (
+          <div>
+            <quote>
+              <p>{data.content}</p>
+            </quote>
+          </div>
+        )
+      }
+ 
+    }`}
+
+  </Code>
+</Scroller>
+
+---
+
+<Scroller>
+  <Code className="language-jsx">
+    {`
+<div>
+  <Suspense maxDuration={1000} fallback={<Spinner size="medium" />}>
+    <section>
+      <div>
+        <Item id={someID} />
+      </div>
+    <section>
+  </Suspense>
+</div>
+    `}
+
+  </Code>
+</Scroller>
+
+---
+
+## maxDuration?
+
+### realDuration = Math.min(maxDuration, currentDefaultDuration)
+
+"currentDefaultDuration depends on where setState is called. By default (e.g. in AJAX callback) it’s 5 seconds. Inside “intentional” events like click, it’s pretty short (I think 100ms in prod). And you can adjust it."
+
+Dan Abramov
+
+---
+
+<Scroller>
+  <Code className="language-jsx">
+    {`import { createResource } from 'react-cache'
+ 
+const APIResource = createResource(path => fetchAPI(path))
+ 
+function Item(props){
+  
+  const data = APIResource.read(
+    \`/reviews/\${props.id}\`
+  )
+ 
+ return(
+  <div>
+    <quote>
+      <p>{data.content}</p>
+    </quote>
+  </div>
+ )
+}`}
+
+  </Code>
+</Scroller>
+
+---
+<ReactVersion>react@16.x mid-2019</ReactVersion>
+
+# react-cache
+
+<Appear showFirst alt>
+  <h3>
+    Reference React Suspense cache implementation maintained by the React team.
+  </h3>
+  <h3>still experimental.</h3>
+</Appear>
+
+---
+<ReactVersion>react@16.x mid-2019</ReactVersion>
+
+# Speculative Rendering
+
+### kind of preloading.
+
+---
+
+### React will automatically change the priority of the last 2 tabs subtrees so that they won’t be part of the initial render.
+
+```jsx
+<TabComponent>
+  <FirstTab />
+  <SecondTab hidden="true" />
+  <ThirdTab hidden="true" />
+</TabComponent>
+```
+
+The idea is to e.g have a tab component that can render out every window in advance so switching tabs is super fast.
+
+---
+
+## The long term vision...
+
+- Replace componentDidMount, componentDidUpdate, and componentWillUnmount with Hooks
+- Every component import is dynamic
+- Make classes kinda obsolete
+- Pendulum swing back to SSR with Suspense
+- More framework-y with code splitting APIs (React.lazy)
+
+---
+
+# Thank you.

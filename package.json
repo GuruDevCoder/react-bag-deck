@@ -1,0 +1,26 @@
+{
+  "name": "react-bag-deck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-scripts": "1.1.0",
+    "styled-components": "^4.1.3"
+  },
+  "devDependencies": {
+    "@albinotonnina/mdx-deck": "^1.8.6",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "style-loader": "^0.23.1"
+  },
+  "scripts": {
+    "start": "mdx-deck src/presentation.mdx",
+    "build": "mdx-deck build src/presentation.mdx --no-html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Albino Tonnina <albinotonnina@gmail.com> (http://www.albinotonnina.com)",
+  "license": "ISC"
+}
